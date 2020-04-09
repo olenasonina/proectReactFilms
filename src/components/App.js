@@ -32,27 +32,27 @@ class App extends React.Component {
 
   getMovies = () => {
     fetch(`https://api.themoviedb.org/3/discover/movie?api_key=3f4ca4f3a9750da53450646ced312397&language=en-US&sort_by=${this.state.sort_by}&page=${this.state.page}`)
-        .then((response) => {
-          return response.json()
-        }).then((data) => {
+      .then((response) => {
+        return response.json()
+      }).then((data) => {
       // console.log("data", data);
       this.setState(
-          {myMovies: data.results,
-                 total_pages: data.total_pages}
+        {myMovies: data.results,
+          total_pages: data.total_pages}
       );
     });
   };
 
   removeMyMovie = myMovie => {
     const newMovies = this.state.myMovies.filter(function(item) {
-       return item.id !== myMovie.id;
+      return item.id !== myMovie.id;
     });
     const newRemoveMovies = this.state.willWatch.filter(function(item) {
       return item.id !== myMovie.id;
     });
     this.setState(
       {myMovies: newMovies,
-             willWatch: newRemoveMovies}
+        willWatch: newRemoveMovies}
     );
   };
 
@@ -60,8 +60,8 @@ class App extends React.Component {
     const newWillWatch = [...this.state.willWatch];
     newWillWatch.push(myMovie);
     this.setState(
-        {willWatch: newWillWatch}
-        );
+      {willWatch: newWillWatch}
+    );
   };
 
   removeMyMovieFromWillWatch = myMovie => {
@@ -69,12 +69,12 @@ class App extends React.Component {
       return item.id !== myMovie.id;
     });
     this.setState(
-        {willWatch: newRemoveMovies}
+      {willWatch: newRemoveMovies}
     );
   };
 
   changeSortBy = value => {
-        this.setState({sort_by: value});
+    this.setState({sort_by: value});
   };
 
   changePageToPrevious = () => {
@@ -92,7 +92,7 @@ class App extends React.Component {
   };
 
   render() {
-  return (
+    return (
       <div className="container">
         <div className="row mt-4">
           <div className="col-9">
@@ -104,10 +104,10 @@ class App extends React.Component {
             <div className="row">
               {this.state.myMovies.map( myMovie => {
                 return(
-                    <div className="col-6 mb-4" key={myMovie.id}>
-                        <MovieItem myMovie={myMovie} removeMyMovie={this.removeMyMovie} addMyMovie={this.addMyMovie} removeMyMovieFromWillWatch={this.removeMyMovieFromWillWatch} />
-                    </div>
-                    );
+                  <div className="col-6 mb-4" key={myMovie.id}>
+                    <MovieItem willWatch={this.state.willWatch} myMovie={myMovie} removeMyMovie={this.removeMyMovie} addMyMovie={this.addMyMovie} removeMyMovieFromWillWatch={this.removeMyMovieFromWillWatch} />
+                  </div>
+                );
               })}
             </div>
             <div className="row mb-4 mt-4">
@@ -119,22 +119,22 @@ class App extends React.Component {
           <div className="col-3">
             <p className="h2">Will watch: {this.state.willWatch.length} movies</p>
             <ul className="list-group">
-            {this.state.willWatch.map( myMovie => {
-              return (
+              {this.state.willWatch.map( myMovie => {
+                return (
                   <li key={myMovie.id} className="list-group-item">
                     <div className="d-flex justify-content-between">
                       <p>{myMovie.title}</p>
                       <p>{myMovie.vote_average}</p>
                     </div>
                   </li>
-              )
-            })}
+                )
+              })}
             </ul>
           </div>
         </div>
       </div>
 
-  )
+    )
   }
 }
 
